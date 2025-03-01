@@ -1,10 +1,15 @@
+import "./styles/home.css";
 import React from "react";
+import ProductBar from "./components/ProductBar"; 
 
 function Home(){
     return(
-        <div>
+        <div className="main-div">
             <h1>Welcome to Schema Store</h1>
-            <p>This is were some super cool things will go</p>   
+            <h2 className="prod-list-lable">Suggested for you</h2>   
+            <ProductBar/>
+            <h2 className="prod-list-lable">Huge Deals</h2>
+            <ProductBar/>
         </div>
     );
 }
