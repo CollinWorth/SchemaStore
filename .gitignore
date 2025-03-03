@@ -1,1 +1,6 @@
 liquibase/
+liquibase*
+
+.vscode/
+
+__pycache__
