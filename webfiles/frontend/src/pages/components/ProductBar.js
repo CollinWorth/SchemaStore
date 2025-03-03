@@ -13,15 +13,23 @@ export default function ProductBar() {
 
   return (
     <div className="product-bar">
-      {products.map((product) => (
-        <div key={product.id} className="product-card">
-          <img src={product.image_url} alt={product.name} className="product-image" />
+        <div className="product-card">
+          <img src="" alt="Napkins" className="product-image" />
           <div className="product-info">
-            <h4>{product.name}</h4>
-            <p>${product.price.toFixed(2)}</p>
+            <h4>Napkins</h4>
+            <p>$2.00</p>
           </div>
         </div>
-      ))}
     </div>
   );
 }
+
+   /*  {products.map((product) => (
+  <div key={product.id} className="product-card">
+    <img src={product.image_url} alt={product.name} className="product-image" />
+    <div className="product-info">
+      <h4>{product.name}</h4>
+      <p>${product.price.toFixed(2)}</p>
+    </div>
+  </div>
+))}*/
