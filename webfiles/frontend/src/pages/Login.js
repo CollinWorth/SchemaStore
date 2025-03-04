@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./styles/login.css";
-import {loginUser } from "../api";
+import axios from "axios";
 
 function Login() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [users, setUsers] = useState([]);
   
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
       event.preventDefault();
-      console.log('Form submitted');
       // Handle login logic here (e.g., API call)
       console.log('Logging in with:', username, password);
-      try {
-        const response = await loginUser(username, password);
-        localStorage.setItem("username", response.username);
-        // This is where you would navigate to a diffrent page becuase successful
-        console.log("login successful from front end");
-      } catch (err) {
-        console.log("Invalid credentials");
-      }
     };
+
+    useEffect(() => {
+      axios.get("http://127.0.0.1:8000/users")
+        .then((response) => setUsers(response.users))
+        .catch((error) => console.error("Error fetching login page:", error));
+    }, []);
+
+    
   
     return (
       <form onSubmit={handleSubmit}>
