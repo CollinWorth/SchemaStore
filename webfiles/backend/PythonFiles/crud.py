@@ -12,8 +12,7 @@ def get_user(cursor, username: str):
     return cursor.fetchone()
 
 def create_user(cursor, conn, username: str, password: str):
-    hashed_password = pwd_context.hash(password)
     cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s) RETURNING id, username", 
-                   (username, hashed_password))
+                   (username, password))  # Store password as plain text
     conn.commit()
     return cursor.fetchone()
