@@ -1,3 +1,5 @@
 databaseChangeLog:
-  - includeAll:
-      path: "./"
+  - include:
+      file: ../webfiles/backend/db-changelogs/init.sql
+  - includeAll: 
+      path: ../webfiles/backend/db-changelogs/tables/
