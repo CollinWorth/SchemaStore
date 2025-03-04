@@ -59,4 +59,4 @@ CREATE TABLE product_orders (
   FOREIGN KEY (product_sku) REFERENCES products(sku),
   CHECK (amount > 0),
   CHECK (total >= 0)
-)
+);
