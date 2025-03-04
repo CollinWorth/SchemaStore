@@ -2,24 +2,38 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./ProductBar.css";
 
+import sneakers from "../assets/sneakers.jpg";
+import joggers from "../assets/joggers.jpg";
+import sweatshirt from "../assets/sweatshirt.jpg"
+import sunglasses from "../assets/sunglasses.jpg"
+
+const products = [ //Place holder for items, so that we have some images
+  {id: 1, name: "Sneakers", price: "79.99", image: sneakers},
+  {id: 2, name: "Joggers", price: "49.99", image: joggers},
+  {id: 3, name: "Sweatshirt", price: "59.99", image: sweatshirt},
+  {id: 4, name: "Sunglasses", price: "39.99", image: sunglasses},
+]
+
 export default function ProductBar() {
-  const [products, setProducts] = useState([]);
+  /*const [products, setProducts] = useState([]);  This will be implemented once the product db is done
 
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/products")
       .then((response) => setProducts(response.data))
       .catch((error) => console.error("Error fetching products:", error));
-  }, []);
+  }, []);*/
 
   return (
     <div className="product-bar">
-        <div className="product-card">
-          <img src="" alt="Napkins" className="product-image" />
+      {products.map((product) => (
+        <div key={product.id} className="product-card">
+          <img src={product.image} alt={product.name} className="product-image" />
           <div className="product-info">
-            <h4>Napkins</h4>
-            <p>$2.00</p>
+            <h4>{product.name}</h4>
+            <p>${product.price}</p>
           </div>
         </div>
+      ))}
     </div>
   );
 }

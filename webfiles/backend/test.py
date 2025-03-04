@@ -11,7 +11,7 @@ try:
     cursor.execute("SELECT version();")
     db_version = cursor.ftchone()
 
-    printf(f"Connected to the database")
+    print(f"Connected to the database")
 
     cursor.close()
     conn.close()
