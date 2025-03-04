@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
 import "./styles/login.css";
+import {loginUser } from "../api";
 
 function Login() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
   
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
       event.preventDefault();
+      console.log('Form submitted');
       // Handle login logic here (e.g., API call)
       console.log('Logging in with:', username, password);
+      try {
+        const response = await loginUser(username, password);
+        localStorage.setItem("username", response.username);
+        // This is where you would navigate to a diffrent page becuase successful
+        console.log("login successful from front end");
+      } catch (err) {
+        console.log("Invalid credentials");
+      }
     };
   
     return (
