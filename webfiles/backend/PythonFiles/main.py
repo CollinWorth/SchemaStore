@@ -1,14 +1,15 @@
 from fastapi import FastAPI, Depends, HTTPException
-from database import get_db
-import crud, schemas
-from passlib.context import CryptContext
+from PythonFiles.database import get_db
+import PythonFiles.crud
+import PythonFiles.schemas
+
 
 app = FastAPI()
 
 # Register
-@app.post("/register/", response_model=schemas.UserOut)
-def register_user(user: schemas.UserCreate, cursor=Depends(get_db)):
-    db_user = crud.get_user(cursor, user.username)
+@app.post("/register/", response_model=PythonFiles.schemas.UserOut)
+def register_user(user: PythonFiles.schemas.UserCreate, cursor=Depends(get_db)):
+    db_user = crud.get_user(cursor, user.username) # Will be set to NULL if the 
     if db_user:
         #
         raise HTTPException(status_code=400, detail="Username already registered")
@@ -17,7 +18,7 @@ def register_user(user: schemas.UserCreate, cursor=Depends(get_db)):
 
 # Login
 @app.post("/login/")
-def login(user: schemas.UserCreate, cursor=Depends(get_db)):
+def login(user: PythonFiles.schemas.UserCreate, cursor=Depends(get_db)):
     db_user = crud.get_user(cursor, user.username)
     if db_user is None or not pwd_context.verify(user.password, db_user['password']):
         raise HTTPException(status_code=401, detail="Invalid credentials")

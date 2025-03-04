@@ -1,6 +1,8 @@
+# To help with user authentication 
 import psycopg2
 from passlib.context import CryptContext
-from database import get_db
+from PythonFiles.database import get_db
+from passlib.context import CryptContext
 from fastapi import HTTPException
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
