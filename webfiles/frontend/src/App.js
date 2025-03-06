@@ -3,6 +3,9 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Cart from "./pages/Cart";
+import AccountDashboard from "./pages/AccountDashboard";
+import About from "./pages/About";
 import Create_Account from "./pages/Create_Account";
 import { Search } from "lucide-react";
 import logo from "./images/logo.png"
@@ -17,6 +20,7 @@ function App() {
           <Link to="/" className="logo">
             <img src={logo} alt="Schema Store Logo" className="logo-image" />
           </Link>
+          <Link to="/about">About Us</Link>
 
           {/* Search Bar */}
           <div className="search-container">
@@ -28,8 +32,8 @@ function App() {
           <ul className="nav-links">
             <li><Link to="/login">Login</Link></li>
             <li><Link to="/create_account">Create Account</Link></li>
-            <li> Account </li>
-            <li> Cart </li>
+            <li><Link to="/accountdashboard">Account</Link></li>
+            <li><Link to="/cart">Cart</Link></li>
           </ul>
         </nav>
 
