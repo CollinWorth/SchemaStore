@@ -9,3 +9,12 @@ export const loginUser = async (username, password) => {
     });
     return response.data;
 };
+
+export const createUser = async (username, password, email) => {
+    const response = await axios.post(`${API_URL}/register/`, {
+        username,
+        password,
+        email,
+    });
+    return response.data;
+};

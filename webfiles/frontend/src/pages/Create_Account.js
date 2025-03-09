@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import "./styles/login.css";
-import { loginUser } from "../api";
+import { createUser } from "../api";
 
 
-function Login() {
+function CreateUser() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log('Form submitted');
     // Handle login logic here (e.g., API call)
-    console.log('Logging in with:', username, password);
+    console.log('Creating account with:', username, password, email);
     try {
-      const response = await loginUser(username, password);
+      const response = await createUser(username, password, email);
       localStorage.setItem("username", response.username);
       // This is where you would navigate to a different page because successful
-      console.log("login successful from front end");
+      console.log("Creation successful from front end");
     } catch (err) {
-      console.log("Invalid credentials");
+      console.log("Error from creation");
     }
   };
   
@@ -45,9 +46,18 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
+      <div>
+        <label htmlFor="email">Email:</label>
+        <input
+          type="text"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
       <button type="submit">Login</button>
     </form>
   );
 }
 
-export default Login;
+export default CreateUser;
