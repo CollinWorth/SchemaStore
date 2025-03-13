@@ -28,7 +28,6 @@ CREATE TABLE products (
   price DECIMAL(10, 2) NOT NULL,
   stock INT NOT NULL,
   category VARCHAR(20),
-  img BYTEA,
 
   FOREIGN KEY (category) REFERENCES categories(category),
   CHECK (price >= 0),
@@ -60,4 +59,4 @@ CREATE TABLE product_orders (
   FOREIGN KEY (product_sku) REFERENCES products(sku),
   CHECK (amount > 0),
   CHECK (total >= 0)
-);
+)
