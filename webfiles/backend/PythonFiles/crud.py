@@ -19,3 +19,11 @@ def create_user(cursor, conn, username: str, password: str, email: str, role: st
                    (username, password, email, role))  
     conn.commit()
     return cursor.fetchone()
+
+def get_products(cursor):
+    cursor.execute("SELECT sku, name, description, price, stock, category, img FROM products")
+    return cursor.fetchall()
+
+def get_product_by_sku(cursor, sku: str):
+    cursor.execute("SELECT sku, name, description, price, stock, category, img FROM products WHERE sku = %s", (sku,))
+    return cursor.fetchone()
