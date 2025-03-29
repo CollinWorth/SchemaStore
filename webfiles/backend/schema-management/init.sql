@@ -36,6 +36,7 @@ CREATE TABLE products (
   CHECK (price >= 0),
   CHECK (stock >= 0)
 );
+-- adding image to this as well
 -- rollback DROP TABLE products;
 
 -- changeset austin:5
