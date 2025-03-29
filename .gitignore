@@ -1,8 +1,15 @@
+# Liquibase
 liquibase/
 liquibase*
 
+# VS Code
 .vscode/
 
+# Mac Stuff
 .DS_Store/
 
+# Python
 __pycache__
+.python-version
+.venv
+venv
