@@ -14,9 +14,8 @@ def get_user(cursor, username: str):
     cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
     return cursor.fetchone()
 
-def create_user(cursor, conn, username: str, password: str, email: str):
-    debug.log("inserting into db");
-    cursor.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s), username", 
-                   (username, password, email))  # Store password as plain text
+def create_user(cursor, conn, username: str, password: str, email: str, role: str):
+    cursor.execute("INSERT INTO users (username, password, email, role) VALUES (%s, %s, %s, %s)", 
+                   (username, password, email, role))  
     conn.commit()
     return cursor.fetchone()
