@@ -48,8 +48,8 @@ async def preflight_check(full_path: str):
 
 # Get all products
 @app.get("/products/", response_model=list[schemas.ProductOut])
-def get_all_products(cursor=Depends(get_db)):
-    products = crud.get_products(cursor[0])
+def get_all_products(cursor = Depends(get_db)):
+    products = crud.get_products(cursor)
     if not products:
         raise HTTPException(status_code=404, detail="No products found")
 
