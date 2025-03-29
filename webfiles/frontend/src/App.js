@@ -45,6 +45,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/create_account" element={<Create_Account />} />
             <Route path="/cart" element={<Cart/>}/>
+            <Route path="/about" element={<About/>}/>
           </Routes>
         </div>
       </div>
