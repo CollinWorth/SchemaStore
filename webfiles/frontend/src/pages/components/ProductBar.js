@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./ProductBar.css";
+import { useCart } from './Cartcomp';
 
 import sneakers from "../assets/sneakers.jpg";
 import joggers from "../assets/joggers.jpg";
@@ -14,7 +15,7 @@ const products = [ //Place holder for items, so that we have some images
   {id: 4, name: "Sunglasses", price: "39.99", image: sunglasses},
 ]
 
-export default function ProductBar() {
+const ProductBar = () => {
   /*const [products, setProducts] = useState([]);  This will be implemented once the product db is done
 
   useEffect(() => {
@@ -22,6 +23,8 @@ export default function ProductBar() {
       .then((response) => setProducts(response.data))
       .catch((error) => console.error("Error fetching products:", error));
   }, []);*/
+
+const {addToCart} = useCart();
 
   return (
     <div className="product-bar">
@@ -31,6 +34,7 @@ export default function ProductBar() {
           <div className="product-info">
             <h4>{product.name}</h4>
             <p>${product.price}</p>
+            <button onClick={() => addToCart(product)}>Add to Cart</button>
           </div>
         </div>
       ))}
@@ -47,3 +51,6 @@ export default function ProductBar() {
     </div>
   </div>
 ))}*/
+
+
+export default ProductBar;

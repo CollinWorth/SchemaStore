@@ -7,7 +7,7 @@ import Cart from "./pages/Cart";
 import AccountDashboard from "./pages/AccountDashboard";
 import About from "./pages/About";
 import Create_Account from "./pages/Create_Account";
-import { Search } from "lucide-react";
+import { Car, Search } from "lucide-react";
 import logo from "./images/logo.png"
 
 function App() {
@@ -20,8 +20,9 @@ function App() {
           <Link to="/" className="logo">
             <img src={logo} alt="Schema Store Logo" className="logo-image" />
           </Link>
-          <Link to="/about">About Us</Link>
-
+          <ul className="nav-links">
+            <Link to="/about">About Us</Link>
+          </ul>
           {/* Search Bar */}
           <div className="search-container">
             <Search className="search-icon" size={20} />
@@ -43,6 +44,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/create_account" element={<Create_Account />} />
+            <Route path="/cart" element={<Cart/>}/>
           </Routes>
         </div>
       </div>
