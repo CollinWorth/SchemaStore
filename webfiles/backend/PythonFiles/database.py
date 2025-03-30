@@ -1,17 +1,14 @@
 import psycopg2
-from psycopg2.extras import RealDictCursor 
+from contextlib import contextmanager
 
 DATABASE_URL = "postgresql://postgres:MarineCorps1371!!@localhost/schemastoredb"
 
+
 def get_db():
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()  # Use the default cursor (not RealDictCursor)
     try:
-        conn = psycopg2.connect(DATABASE_URL)
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-        print("Database connection successful!")  
-        yield cursor
-    except Exception as e:
-        print(f"Database connection failed: {e}") 
-        raise 
+        yield cursor, conn  # Yield both cursor and conn
     finally:
-        cursor.close()
-        conn.close()
+        cursor.close()  # Ensure cursor is closed after use
+        conn.close()  # Ensure connection is closed after use

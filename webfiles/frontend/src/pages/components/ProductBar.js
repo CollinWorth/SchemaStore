@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./ProductBar.css";
 import { useCart } from './Cartcomp';
-import { getProducts } from "D:/Git projects/GitProjects/SchemaStore/webfiles/frontend/src/api.js";
+import { getProducts } from "../../api.js";
 
 import sneakers from "../assets/sneakers.jpg";
 import joggers from "../assets/joggers.jpg";

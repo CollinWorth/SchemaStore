@@ -12,8 +12,8 @@ class UserCreate(BaseModel):
 
 class UserOut(BaseModel):
     username: str
+    password: str
     email: str
-    role: str | None = None
 
     class Config:
         orm_mode = True
