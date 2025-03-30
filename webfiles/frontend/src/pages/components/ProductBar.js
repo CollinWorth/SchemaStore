@@ -47,7 +47,7 @@ return (
   <div className="product-bar">
     {filteredProducts.map(product => (
       <div key={product.sku} className="product-card">
-        <img src={product.image_url} alt={product.name} className="product-image" />
+        <img src={product.image} alt={product.name} className="product-image" />
         <div className="product-info">
           <h4>{product.name}</h4>
           <p>${parseFloat(product.price).toFixed(2)}</p>

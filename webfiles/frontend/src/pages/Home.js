@@ -9,7 +9,7 @@ function Home(){
             <h2 className="prod-list-lable">Suggested for you</h2>   
             <ProductBar/>
             <h2 className="prod-list-lable">Huge Deals</h2>
-            <ProductBar category="shoes"/>
+            <ProductBar category="Accessories"/>
         </div>
     );
 }

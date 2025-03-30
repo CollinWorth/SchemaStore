@@ -10,13 +10,13 @@ const Cart = () => {
       <h2>Your Cart</h2>
       {cartItems.length === 0 && <p>Cart is empty</p>}
       {cartItems.map(item => (
-        <div key={item.id}>
+        <div key={item.sku}>
           <h4>{item.name}</h4>
           <p>Price: ${item.price}</p>
           <p>Qty: {item.quantity}</p>
-          <button onClick={() => updateQuantity(item.id, -1)}>-</button>
-          <button onClick={() => updateQuantity(item.id, 1)}>+</button>
-          <button onClick={() => removeFromCart(item.id)}>Remove</button>
+          <button onClick={() => updateQuantity(item.sku, -1)}>-</button>
+          <button onClick={() => updateQuantity(item.sku, 1)}>+</button>
+          <button onClick={() => removeFromCart(item.sku)}>Remove</button>
         </div>
       ))}
       <h3>Total: ${total.toFixed(2)}</h3>
