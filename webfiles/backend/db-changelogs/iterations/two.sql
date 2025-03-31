@@ -64,3 +64,12 @@ ALTER TABLE "users"
          ON DELETE NO ACTION;
 
 COMMIT;
+
+-- changeset austin:4
+-- Add image column to products table
+BEGIN;
+
+ALTER TABLE "products"
+   ADD COLUMN "img" BYTEA;
+
+COMMIT;
