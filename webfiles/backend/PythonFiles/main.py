@@ -5,6 +5,7 @@ import crud
 import schemas
 from fastapi.responses import JSONResponse
 from passlib.context import CryptContext
+import base64
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -63,7 +64,7 @@ def get_all_products(db=Depends(get_db)):
             price=prod[3], 
             stock=prod[4], 
             category=prod[5], 
-            img=prod[6]
+            img=base64.b64encode(prod[6]).decode("utf-8") if prod[6] else None  # Encode img to Base64
         ) for prod in products
     ]
 
@@ -82,7 +83,7 @@ def get_product(sku: str, db=Depends(get_db)):
         price=product[3], 
         stock=product[4], 
         category=product[5], 
-        img=product[6]
+        img=base64.b64encode(product[6]).decode("utf-8") if product[6] else None  # Encode img to Base64
     )
 
 # Handle CORS Preflight Requests
@@ -93,3 +94,6 @@ async def preflight_check(full_path: str):
     response.headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS, DELETE, PUT"
     response.headers["Access-Control-Allow-Headers"] = "*"
     return response
+
+# For displaying the immage once recived:
+#<img src="data:image/png;base64,{{ base64_encoded_image }}" alt="Product Image" />

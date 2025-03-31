@@ -1,7 +1,6 @@
 import psycopg2
-from contextlib import contextmanager
 
-DATABASE_URL = "postgresql://postgres:MarineCorps1371!!@localhost/schemastoredb"
+DATABASE_URL = "postgresql://postgres:@localhost/schemastoredb"
 
 
 def get_db():

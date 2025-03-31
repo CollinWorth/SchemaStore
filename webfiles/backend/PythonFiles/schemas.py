@@ -25,6 +25,7 @@ class ProductCreate(BaseModel):
     price: float
     stock: int
     category: str | None = None
+    img: str | None = None
 
 class ProductOut(BaseModel):
     sku: str
@@ -33,7 +34,7 @@ class ProductOut(BaseModel):
     price: float
     stock: int
     category: str | None = None
-    img: bytes | None = None
+    img: str | None = None
 
     class Config:
         orm_mode = True
