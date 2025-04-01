@@ -23,9 +23,9 @@ app.add_middleware(
 @app.post("/register/", response_model=schemas.UserOut)
 def register_user(user: schemas.UserCreate, db=Depends(get_db)):  # Unpack db into cursor and conn
     cursor, conn = db  # Unpack the tuple into cursor and conn
-    role = user.role if user.role else "customer"
+    role_id = 3
     # Register the user in the database
-    crud.register_user(cursor, user.username, user.password, user.email, role)
+    crud.register_user(cursor, user.username, user.password, user.email, role_id)
     return schemas.UserOut(username=user.username, password=user.password, email=user.email)
 
 @app.post("/login/")
@@ -37,7 +37,7 @@ def login(user: schemas.UserLogin, db=Depends(get_db)):  # db is a tuple (cursor
         db_user = crud.get_user(cursor, user.username)
 
         # Check if user exists and passwords match
-        if db_user is None or db_user['password'] != user.password:
+        if db_user is None or db_user[1] != user.password:
             raise HTTPException(status_code=401, detail="Invalid credentials")
 
         # Return success response

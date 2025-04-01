@@ -15,7 +15,7 @@ export const createUser = async (username, password, email) => {
         username,
         password,
         email,
-        role: "customer", 
+        role_id: 3, 
     });
     return response.data;
 };

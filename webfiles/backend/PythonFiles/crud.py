@@ -16,10 +16,10 @@ def get_user(cursor, username: str):
         return user  # Return the user as a tuple
     return None
 
-def register_user(cursor, username: str, password: str, email: str, role: str):
+def register_user(cursor, username: str, password: str, email: str, role_id: int):
     # Here, insert the user and commit the transaction
-    cursor.execute("INSERT INTO users (username, password, email, role) VALUES (%s, %s, %s, %s)", 
-                   (username, password, email, role))
+    cursor.execute("INSERT INTO users (username, password, email, role_id) VALUES (%s, %s, %s, %s)", 
+                   (username, password, email, role_id))
     cursor.connection.commit()  # Commit the transaction
     return None  # Return None instead of the inserted user
 
