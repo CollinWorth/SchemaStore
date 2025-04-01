@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class UserLogin(BaseModel):
@@ -25,7 +26,7 @@ class ProductCreate(BaseModel):
     price: float
     stock: int
     category: str | None = None
-    img: str | None = None
+    img: Optional[bytes] = None
 
 class ProductOut(BaseModel):
     sku: str
@@ -34,7 +35,7 @@ class ProductOut(BaseModel):
     price: float
     stock: int
     category: str | None = None
-    img: str | None = None
+    img: Optional[bytes] = None 
 
     class Config:
         orm_mode = True
@@ -52,19 +53,3 @@ class ReservedItemOut(BaseModel):
     class Config:
         orm_mode = True
 
-class ProductOrderCreate(BaseModel):
-    username: str
-    product_sku: str
-    amount: int
-    ship_addr: str
-    total: float
-
-class ProductOrderOut(BaseModel):
-    username: str
-    product_sku: str
-    amount: int
-    ship_addr: str
-    total: float
-
-    class Config:
-        orm_mode = True
