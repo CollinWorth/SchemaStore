@@ -1,15 +1,20 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from database import get_db
 import crud
 import schemas
 from fastapi.responses import JSONResponse
 from passlib.context import CryptContext
 import base64
+import os
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 app = FastAPI()
+
+UPLOAD_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../frontend/src/images")) # To insure that we are getting abs path for differet systems
+app.mount("/images", StaticFiles(directory=UPLOAD_DIR), name="images")
 
 # Corrected CORS middleware
 app.add_middleware(
@@ -62,9 +67,8 @@ def get_all_products(db=Depends(get_db)):
             name=prod[1], 
             description=prod[2], 
             price=prod[3], 
-            stock=prod[4], 
-            category=prod[5], 
-            img=prod[6]
+            stock=prod[4],
+            img=prod[5]
         ) for prod in products
     ]
 
@@ -81,10 +85,26 @@ def get_product(sku: str, db=Depends(get_db)):
         name=product[1], 
         description=product[2], 
         price=product[3], 
-        stock=product[4], 
-        category=product[5], 
-        img=product[6]
+        stock=product[4],
+        img=product[5]
     )
+
+@app.post("/products/", response_model=schemas.ProductOut)
+def create_product(
+    sku: str, 
+    name: str, 
+    description: str, 
+    price: float, 
+    stock: int, 
+    file: UploadFile = File(...), 
+    db=Depends(get_db)
+):
+    cursor, conn = db
+    crud.register_product(cursor, sku, name, description, price, stock, file)
+    return schemas.ProductOut(
+        sku=sku, name=name, description=description, price=price, stock=stock, img=f"/images/{sku}.png"
+    )
+
 
 # Handle CORS Preflight Requests
 @app.options("/{full_path:path}")
@@ -94,6 +114,3 @@ async def preflight_check(full_path: str):
     response.headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS, DELETE, PUT"
     response.headers["Access-Control-Allow-Headers"] = "*"
     return response
-
-# For displaying the immage once recived:
-#<img src="data:image/png;base64,{{ base64_encoded_image }}" alt="Product Image" />
