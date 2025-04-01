@@ -13,8 +13,8 @@ class UserCreate(BaseModel):
 
 class UserOut(BaseModel):
     username: str
-    password: str
     email: str
+    role: str
 
     class Config:
         orm_mode = True
@@ -26,6 +26,7 @@ class ProductCreate(BaseModel):
     price: float
     stock: int
     img: str | None = None 
+    category_ids: list[int]
 
 class ProductOut(BaseModel):
     sku: str
@@ -34,6 +35,7 @@ class ProductOut(BaseModel):
     price: float
     stock: int
     img: str | None = None 
+    categories: list[str]
 
     class Config:
         orm_mode = True
