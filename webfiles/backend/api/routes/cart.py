@@ -53,6 +53,7 @@ async def addToCart(item: Item, db=Depends(get_db)):
       statement = f"""UPDATE "products" SET "stock" = "stock" - {item.amount} WHERE "sku" = '{item.product_sku}'"""
       cursor.execute(statement)
    except Error as e:
+      cursor.connection.commit()
       if e.pgcode == '23514':
          raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -69,7 +70,7 @@ async def addToCart(item: Item, db=Depends(get_db)):
                "message": str(e)
             }
          )
-   finally:
+   else:
       if duplicate_item:
          statement = f"""UPDATE "reserved_items" SET "amount" = "amount" + {item.amount}
                             WHERE "product_sku" = '{item.product_sku}' AND "username" = '{item.username}'"""
@@ -89,13 +90,27 @@ async def deleteItem(item: Item, db = Depends(get_db)):
    # Find the amount currently in cart
    statement = f"""SELECT "amount" FROM "reserved_items" WHERE "product_sku" = '{item.product_sku}' AND "username" = '{item.username}'"""
    cursor.execute(statement)
-   amount_in_cart = cursor.fetchone()[0]
+   amount_in_cart = cursor.fetchone()
+
+   if amount_in_cart:
+      amount_in_cart = amount_in_cart[0]
+   else:
+      raise HTTPException(
+         status_code=status.HTTP_404_NOT_FOUND,
+         detail=f"{item.product_sku} doesn't exist in {item.username}'s cart"
+      )
 
    # Delete either entire row from cart or amount requested
+   delete_amount = 0
    if amount_in_cart - item.amount <= 0:
+      statement = f"""SELECT "amount" FROM "reserved_items" WHERE "product_sku" = '{item.product_sku}' AND "username" = '{item.username}'"""
+      cursor.execute(statement)
+      delete_amount = cursor.fetchone()[0]
+
       statement = f"""DELETE FROM "reserved_items" WHERE "product_sku" = '{item.product_sku}' AND "username" = '{item.username}'"""
    else:
       statement = f"""UPDATE "reserved_items" SET "amount" = "amount" - {item.amount} WHERE "product_sku" = '{item.product_sku}' AND "username" = '{item.username}'"""
+      delete_amount = item.amount
    cursor.execute(statement)
 
    # Check that we are actually deleting something
@@ -103,7 +118,7 @@ async def deleteItem(item: Item, db = Depends(get_db)):
       raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
    # Update the product listing
-   statement = f"""UPDATE "products" SET "stock" = "stock" + {item.amount} WHERE "sku" = '{item.product_sku}'"""
+   statement = f"""UPDATE "products" SET "stock" = "stock" + {delete_amount} WHERE "sku" = '{item.product_sku}'"""
    cursor.execute(statement)
 
 

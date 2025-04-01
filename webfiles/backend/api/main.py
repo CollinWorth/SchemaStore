@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
@@ -46,7 +46,7 @@ def register_user(user: UserCreate, db=Depends(get_db)):  # Unpack db into curso
     # Return User
     return UserOut(username=user.username, email=user.email, role=role)
 
-@app.post("/login/")
+@app.post("/login/", status_code=status.HTTP_200_OK, response_model=None)
 def login(user: UserLogin, db=Depends(get_db)):  # db is a tuple (cursor, conn)
     try:
         cursor, conn = db  # Unpack the tuple here
@@ -61,7 +61,7 @@ def login(user: UserLogin, db=Depends(get_db)):  # db is a tuple (cursor, conn)
 
         # Check if user exists and passwords match
         if user is None:
-            raise HTTPException(status_code=401, detail="Invalid credentials")
+            return HTTPException(status_code=401, detail="Invalid credentials")
 
         # Return success response
         return {"message": "Login successful"}
