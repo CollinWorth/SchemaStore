@@ -1,10 +1,11 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+import os
+import logging
+from fastapi import FastAPI, Depends, HTTPException, status, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
 from passlib.context import CryptContext
-import os
-import logging
+from typing import Annotated
 
 from .routes import cart, products
 from .database import get_db
