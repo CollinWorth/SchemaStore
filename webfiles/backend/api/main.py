@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import APIRouter, FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
@@ -14,6 +14,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 app = FastAPI()
+
 
 # Used for Image Upload
 UPLOAD_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../frontend/src/images")) # To insure that we are getting abs path for differet systems
@@ -71,6 +72,7 @@ def login(user: UserLogin, db=Depends(get_db)):  # db is a tuple (cursor, conn)
         print(f"Error during login: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
+
 # Handle CORS Preflight Requests
 @app.options("/{full_path:path}")
 async def preflight_check(full_path: str):
@@ -79,3 +81,4 @@ async def preflight_check(full_path: str):
     response.headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS, DELETE, PUT"
     response.headers["Access-Control-Allow-Headers"] = "*"
     return response
+

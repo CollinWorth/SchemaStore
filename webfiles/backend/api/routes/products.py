@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, Depends, File, HTTPException
 
 from ..database import get_db
-from ..crud import register_product
+from ..crud import register_product, search_products_by_query
 from ..schemas import ProductOut, ProductCreate
 
 router = APIRouter(
@@ -46,13 +46,27 @@ def get_all_products(db=Depends(get_db)):
         ) for product in products
     ]
 
+@router.get("/search", response_model=list[ProductOut])
+async def search_products(query: str, db=Depends(get_db)):
+    # Call the search function, which already handles the empty results case
+    results = search_products_by_query(query, db)
+
+    return [ProductOut(**{
+        "sku": p[0],
+        "name": p[1],
+        "description": p[2],
+        "price": p[3],
+        "stock": p[4],
+        "img": p[5],
+    }) for p in results]
+
 @router.get("/{sku}", response_model=ProductOut)
 def get_product(sku: str, db=Depends(get_db)):
     cursor, conn = db
     cursor.execute(f"SELECT sku, name, description, price, stock, img FROM products WHERE sku = '{sku}'")
     product = cursor.fetchone()  # Get the product as a tuple
     if not product:
-        raise HTTPException(status_code=404, detail="Product not found")
+        raise HTTPException(status_code=404, detail="Product not found sku")
 
     statement = f'''SELECT categories.category
                     FROM categories
@@ -70,8 +84,7 @@ def get_product(sku: str, db=Depends(get_db)):
         description=product[2], 
         price=product[3], 
         stock=product[4],
-        img=product[5],
-        categories=categories
+        img=product[5]
     )
 
 @router.post("/", response_model=ProductOut)
@@ -89,3 +102,4 @@ def create_product(
     return ProductOut(
         sku=sku, name=name, description=description, price=price, stock=stock, img=f"/images/{sku}.png", categories=[]
     )
+
