@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import "./styles/login.css";
 import { createUser } from "../api";
+import { useNavigate } from 'react-router-dom';
 
 
 function CreateUser() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
   
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,6 +20,7 @@ function CreateUser() {
       localStorage.setItem("username", response.username);
       // This is where you would navigate to a different page because successful
       console.log("Creation successful from front end");
+      navigate('/Home.js'); // route to Home.js
     } catch (err) {
       console.log("Error from creation");
     }
