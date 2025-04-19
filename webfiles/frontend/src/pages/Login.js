@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import "./styles/login.css";
 import { loginUser } from "../api";
+import { useNavigate } from 'react-router-dom';
 
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
   
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log('Form submitted');
@@ -17,6 +20,8 @@ function Login() {
       localStorage.setItem("username", response.username);
       // This is where you would navigate to a different page because successful
       console.log("login successful from front end");
+      navigate('/Home.js'); // route to Home.js
+      
     } catch (err) {
       console.log("Invalid credentials");
     }
