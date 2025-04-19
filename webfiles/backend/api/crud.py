@@ -29,3 +29,20 @@ def register_product(cursor, sku: str, name: str, description: str, price: float
         (sku, name, description, price, stock, img_path)
     )
     cursor.connection.commit()
+
+
+def search_products_by_query(query: str, db):
+    cursor, conn = db
+
+    # Execute the query with the search string
+    cursor.execute("""
+        SELECT sku, name, description, price, stock, img
+        FROM products
+        WHERE name ILIKE %s OR description ILIKE %s
+        LIMIT 50;
+    """, (f"%{query}%", f"%{query}%"))
+
+    results = cursor.fetchall()
+    
+
+    return results
