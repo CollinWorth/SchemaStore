@@ -13,8 +13,8 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log('Form submitted');
-    // Handle login logic here (e.g., API call)
     console.log('Logging in with:', username, password);
+    
     try {
       const response = await loginUser(username, password);
       localStorage.setItem("username", response.username);
