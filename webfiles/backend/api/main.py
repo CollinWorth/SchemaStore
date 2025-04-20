@@ -15,6 +15,11 @@ logging.basicConfig(level=logging.DEBUG)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 app = FastAPI()
 
+origins = [
+    "http://localhost:3000",  # React dev server
+    "http://127.0.0.1:3000",  # Also valid sometimes depending on browser
+]
+
 
 # Used for Image Upload
 UPLOAD_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../frontend/src/images")) # To insure that we are getting abs path for differet systems
@@ -26,7 +31,7 @@ app.include_router(products.router)
 # Corrected CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -47,28 +52,25 @@ def register_user(user: UserCreate, db=Depends(get_db)):  # Unpack db into curso
     # Return User
     return UserOut(username=user.username, email=user.email, role=role)
 
-@app.post("/login/", status_code=status.HTTP_200_OK, response_model=None)
-def login(user: UserLogin, db=Depends(get_db)):  # db is a tuple (cursor, conn)
+@app.post("/login/", status_code=status.HTTP_200_OK)
+def login(user: UserLogin, db=Depends(get_db)):
     try:
-        cursor, conn = db  # Unpack the tuple here
+        cursor, conn = db
 
-        # Retrieve the user from the database
-        cursor.execute(f"""SELECT *
-                           FROM users
-                           WHERE username = '{user.username}' AND password = '{user.password}'""")
-        user = cursor.fetchone()  # Get the user as a tuple
-        if user:
-            print(user)
+        # Use parameterized query to prevent SQL injection
+        cursor.execute(
+            """SELECT username FROM users WHERE username = %s AND password = %s""",
+            (user.username, user.password)
+        )
+        result = cursor.fetchone()
 
-        # Check if user exists and passwords match
-        if user is None:
-            return HTTPException(status_code=401, detail="Invalid credentials")
+        if result is None:
+            raise HTTPException(status_code=401, detail="Invalid credentials")
 
-        # Return success response
-        return {"message": "Login successful"}
+        # Return the username so frontend can store it
+        return {"username": result[0], "message": "Login successful"}
 
     except Exception as e:
-        # Log the error (optional)
         print(f"Error during login: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
 

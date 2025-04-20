@@ -17,10 +17,11 @@ function Login() {
     console.log('Logging in with:', username, password);
     try {
       const response = await loginUser(username, password);
-      localStorage.setItem("username", response.username);
+      console.log("Login response: ", response);
+      sessionStorage.setItem("username", response.username);
       // This is where you would navigate to a different page because successful
       console.log("login successful from front end");
-      navigate('/Home.js'); // route to Home.js
+      navigate('/'); // route to Home.js
       
     } catch (err) {
       console.log("Invalid credentials");

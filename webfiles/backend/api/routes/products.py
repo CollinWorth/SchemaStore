@@ -77,14 +77,14 @@ def get_product(sku: str, db=Depends(get_db)):
     categories = []
     for category in cursor.fetchall():
         categories.append(category[0])
-    
     return ProductOut(
         sku=product[0], 
         name=product[1], 
         description=product[2], 
         price=product[3], 
         stock=product[4],
-        img=product[5]
+        img=None
+        #categories = categories
     )
 
 @router.post("/", response_model=ProductOut)
