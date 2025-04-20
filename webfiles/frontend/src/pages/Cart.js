@@ -1,26 +1,66 @@
+import axios from 'axios';
+import { useCallback, useEffect, useState } from "react"
 import { useCart } from './components/Cartcomp';
 
 const Cart = () => {
-  const { cartItems, removeFromCart, updateQuantity } = useCart();
 
-  const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const { cart, addToCart, removeFromCart, fetchCart } = useCart();
+
+  const [product_list, setList] = useState(new Map());
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    fetchCart();
+  },[]);
+
+  const newMap = new Map();
+
+  const fetchItems = async () =>{
+    console.log("cart: ",cart);
+     var newtotal = 0;
+     for (let sku in cart){
+      const res = await axios.get(`http://127.0.0.1:8000/products/${sku}`);
+      newMap.set(sku,res.data);
+      newtotal += cart[sku]*res.data.price;
+      console.log(res);
+    }
+    setList(newMap);
+    setTotal(newtotal);
+  };
+
+  useEffect(() => {
+    if (Object.keys(cart).length > 0) {
+      fetchItems();
+    }
+    else {
+      setTotal(0);
+    }
+  }, [cart]);
+
 
   return (
     <div>
       <h2>Your Cart</h2>
-      {cartItems.length === 0 && <p>Cart is empty</p>}
-      {cartItems.map(item => (
-        <div key={item.sku}>
-          <h4>{item.name}</h4>
-          <p>Price: ${item.price}</p>
-          <p>Qty: {item.quantity}</p>
-          <button onClick={() => updateQuantity(item.sku, -1)}>-</button>
-          <button onClick={() => updateQuantity(item.sku, 1)}>+</button>
-          <button onClick={() => removeFromCart(item.sku)}>Remove</button>
-        </div>
-      ))}
+      {Object.keys(cart).length === 0 && <p>Cart is empty</p>}
+
+      {Object.entries(cart).map(([sku, quantity]) => {
+        const product = product_list.get(sku);
+        if (!product) return null;
+
+        return (
+          <div key={sku}>
+            <h4>{product.name}</h4>
+            <p>Price: ${product.price}</p>
+            <p>Qty: {quantity}</p>
+            <button onClick={() => removeFromCart(sku)}>-</button>
+            <button onClick={() => addToCart(sku)}>+</button>
+            <button onClick={() => removeFromCart(sku, cart[sku])}>Remove</button>
+          </div>
+        );
+      })}
+
       <h3>Total: ${total.toFixed(2)}</h3>
-      <button disabled={cartItems.length === 0}>Checkout</button>
+      <button disabled={Object.keys(cart).length === 0}>Checkout</button>
     </div>
   );
 };
