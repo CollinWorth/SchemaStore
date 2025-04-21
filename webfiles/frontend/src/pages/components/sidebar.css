@@ -1,0 +1,33 @@
+.sidebar {
+    width: 250px;
+    height: calc(100vh - 89px);
+    background-color: #282c34;
+    color: white;
+    padding: 1rem;
+    position: fixed;
+    left: 0;
+    top: 89px;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  
+    h2 {
+      margin-bottom: 2rem;
+    }
+  
+    ul {
+      list-style: none;
+      padding: 0;
+  
+      li {
+        margin-bottom: 1rem;
+  
+        a {
+          color: white;
+          text-decoration: none;
+          cursor: pointer;
+          &:hover {
+            color: #81a8f5;
+          }
+        }
+      }
+    }
+  }
