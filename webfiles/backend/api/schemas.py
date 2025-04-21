@@ -5,11 +5,18 @@ from typing import Optional
 class UserLogin(BaseModel):
     username: str
     password: str
+
 class UserCreate(BaseModel):
     username: str
     password: str
     email: str
     role_id: int
+
+class UserUpdate(BaseModel):
+    username: Optional[str] = None
+    password: Optional[str] = None
+    email: Optional[str] = None
+    role_id: Optional[int] = None
 
 class UserOut(BaseModel):
     username: str
