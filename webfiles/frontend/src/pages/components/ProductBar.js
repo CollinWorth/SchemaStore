@@ -42,7 +42,7 @@ return (
         <div className="product-info">
           <h4>{product.name}</h4>
           <p>${parseFloat(product.price).toFixed(2)}</p>
-          <button onClick={() => addToCart(product)}>Add to Cart</button>
+          <button onClick={() => addToCart(product.sku, 1)}>Add to Cart</button>
         </div>
       </div>
     ))}
