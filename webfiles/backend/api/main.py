@@ -6,7 +6,7 @@ from passlib.context import CryptContext
 import os
 import logging
 
-from .routes import cart, products
+from .routes import cart, products, user
 from .database import get_db
 from .schemas import *
 
@@ -27,6 +27,7 @@ app.mount("/images", StaticFiles(directory=UPLOAD_DIR), name="images")
 # Include the routes
 app.include_router(cart.router)
 app.include_router(products.router)
+app.include_router(user.router)
 
 # Corrected CORS middleware
 app.add_middleware(
