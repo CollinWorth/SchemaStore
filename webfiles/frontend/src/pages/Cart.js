@@ -34,6 +34,7 @@ const Cart = () => {
     setTotal(newtotal);
   };
 
+
   useEffect(() => {
     if (Object.keys(cart).length > 0) {
       fetchItems();
