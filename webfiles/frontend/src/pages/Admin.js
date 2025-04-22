@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./styles/login.css";
-import ProductBar from "./components/ProductBar"; 
+import ProductBar from "./components/ProductBar";
 
 function Admin() {
   const [products, setProducts] = useState([]);
@@ -15,9 +15,8 @@ function Admin() {
     description: "",
     price: 0,
     stock: 0,
-    img: null // <- always null for now
+    img: "" // <-- initialize as empty string
   });
-
 
   useEffect(() => {
     fetchProducts();
@@ -68,7 +67,7 @@ function Admin() {
     if (!window.confirm(`Are you sure you want to delete user "${username}"?`)) {
       return; // Cancel if user says no
     }
-    
+
     try {
       await axios.delete(`http://127.0.0.1:8000/user/`, {
         params: { username: username }
@@ -83,7 +82,7 @@ function Admin() {
     if (!window.confirm(`Are you sure you want to delete product with SKU "${sku}"?`)) {
       return;
     }
-  
+
     try {
       await axios.delete(`http://127.0.0.1:8000/products/${sku}`);
       fetchProducts(); // Refresh product list
@@ -107,15 +106,8 @@ function Admin() {
     formData.append('description', newProduct.description);
     formData.append('price', newProduct.price.toString());
     formData.append('stock', newProduct.stock.toString());
-  
-    if (newProduct.img) {
-      formData.append('file', newProduct.img);
-    } else {
-      // Send a fake empty file if no image
-      const emptyFile = new Blob([], { type: 'image/png' });
-      formData.append('file', emptyFile, 'empty.png');
-    }
-  
+    formData.append('img_url', newProduct.img);  // sending image URL string
+
     try {
       await axios.post("http://127.0.0.1:8000/products/", formData, {
         headers: {
@@ -124,7 +116,7 @@ function Admin() {
       });
       fetchProducts();
       setShowModal(false);
-      setNewProduct({ sku: "", name: "", description: "", price: 0, stock: 0, img: null });
+      setNewProduct({ sku: "", name: "", description: "", price: 0, stock: 0, img: "" });
     } catch (err) {
       console.error("Error creating product", err);
     }
@@ -150,20 +142,30 @@ function Admin() {
             </tr>
           </thead>
           <tbody>
-          {products.map((prod, index) => (
-            <tr key={index}>
+            {products.map((prod, index) => (
+              <tr key={index}>
                 <td>{prod.sku}</td>
                 <td>{prod.name}</td>
                 <td>{prod.description}</td>
                 <td>${prod.price}</td>
                 <td>{prod.stock}</td>
-                <td>{prod.img ? "Image exists" : "No image"}</td>
                 <td>
-                <button onClick={() => handleDeleteProduct(prod.sku)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-                    🗑️
-                </button>
+                  {prod.img ? (
+                  <img 
+                    src={prod.img} 
+                    alt={prod.name} 
+                    style={{ maxWidth: "100px", maxHeight: "100px", objectFit: "contain" }} 
+                  />
+                  ) : (
+                    "No image"
+                  )}
                 </td>
-            </tr>
+                <td>
+                  <button onClick={() => handleDeleteProduct(prod.sku)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                    🗑️
+                  </button>
+                </td>
+              </tr>
             ))}
           </tbody>
         </table>
@@ -175,12 +177,17 @@ function Admin() {
         <div className="modal">
           <div className="modal-content">
             <h3>Create Product</h3>
-            <input name="sku" placeholder="SKU" onChange={handleInputChange} />
-            <input name="name" placeholder="Name" onChange={handleInputChange} />
-            <input name="description" placeholder="Description" onChange={handleInputChange} />
-            <input name="price" placeholder="Price" type="number" onChange={handleInputChange} />
-            <input name="stock" placeholder="Stock" type="number" onChange={handleInputChange} />
-            {/* File input removed */}
+            <input name="sku" placeholder="SKU" onChange={handleInputChange} value={newProduct.sku} />
+            <input name="name" placeholder="Name" onChange={handleInputChange} value={newProduct.name} />
+            <input name="description" placeholder="Description" onChange={handleInputChange} value={newProduct.description} />
+            <input name="price" placeholder="Price" type="number" onChange={handleInputChange} value={newProduct.price} />
+            <input name="stock" placeholder="Stock" type="number" onChange={handleInputChange} value={newProduct.stock} />
+            <input
+              name="img"
+              placeholder="Image URL"
+              onChange={handleInputChange}
+              value={newProduct.img}
+            />
             <button onClick={handleCreateProduct}>Submit</button>
             <button onClick={() => setShowModal(false)}>Cancel</button>
           </div>
@@ -191,30 +198,30 @@ function Admin() {
 
       {loading ? <p>Loading...</p> : (
         <table className="user-table">
-            <thead>
+          <thead>
             <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Actions</th> {/* 👈 NEW */}
+              <th>Username</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th>
             </tr>
-            </thead>
-            <tbody>
-                {users.map((user, index) => (
-                    <tr key={index}>
-                    <td>{user.username}</td>
-                    <td>{user.email}</td>
-                    <td>{user.role}</td>
-                    <td>
-                        <button onClick={() => handleDeleteUser(user.username)}>Delete</button>
-                    </td>
-                    </tr>
-                ))}
-                </tbody>
+          </thead>
+          <tbody>
+            {users.map((user, index) => (
+              <tr key={index}>
+                <td>{user.username}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>
+                  <button onClick={() => handleDeleteUser(user.username)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
-        )}
-        </div>
-    );
-    }
+      )}
+    </div>
+  );
+}
 
 export default Admin;

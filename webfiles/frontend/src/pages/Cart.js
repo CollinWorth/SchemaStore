@@ -11,8 +11,6 @@ const Cart = () => {
   const [product_list, setList] = useState(new Map());
   const [total, setTotal] = useState(0);
 
-  
-
   useEffect(() => {
     fetchCart();
   },[]);
@@ -25,8 +23,8 @@ const Cart = () => {
 
   const fetchItems = async () =>{
     console.log("cart: ",cart);
-     var newtotal = 0;
-     for (let sku in cart){
+    var newtotal = 0;
+    for (let sku in cart){
       const res = await axios.get(`http://127.0.0.1:8000/products/${sku}`);
       newMap.set(sku,res.data);
       newtotal += cart[sku]*res.data.price;
@@ -45,7 +43,6 @@ const Cart = () => {
     }
   }, [cart]);
 
-
   return (
     <div className='cart-page'>
       <h2>Your Cart</h2>
@@ -57,20 +54,24 @@ const Cart = () => {
 
         return (
           <div key={sku} className='cart-item'>
-          <div className='item-details'>
-            <h4>{product.name}</h4>
-            <p>Price: ${product.price}</p>
-        
-            <div className="qty-row">
-              <p>Qty: {quantity}</p>
-              <div className="item-controls">
-                <button onClick={() => removeFromCart(sku)}>-</button>
-                <button onClick={() => addToCart(sku)}>+</button>
-                <button onClick={() => removeFromCart(sku, cart[sku])}>Remove</button>
+            <img 
+              src={product.img} 
+              alt={product.name} 
+              className="cart-img" 
+            />
+            <div className='item-details'>
+              <h4>{product.name}</h4>
+              <p>Price: ${product.price}</p>
+              <div className="qty-row">
+                <p>Qty: {quantity}</p>
+                <div className="item-controls">
+                  <button onClick={() => removeFromCart(sku)}>-</button>
+                  <button onClick={() => addToCart(sku)}>+</button>
+                  <button onClick={() => removeFromCart(sku, cart[sku])}>Remove</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
         );
       })}
 

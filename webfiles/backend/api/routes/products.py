@@ -42,7 +42,7 @@ def get_all_products(db=Depends(get_db)):
             description=product[2], 
             price=product[3], 
             stock=product[4], 
-            img=None,
+            img=product[5],
             categories=categories[product[0]],
         ) for product in products
     ]
@@ -84,7 +84,7 @@ def get_product(sku: str, db=Depends(get_db)):
         description=product[2], 
         price=product[3], 
         stock=product[4],
-        img=None
+        img=product[5]
         #categories = categories
     )
 
@@ -95,18 +95,18 @@ def create_product(
     description: str = Form(...), 
     price: float = Form(...), 
     stock: int = Form(...), 
-    file: UploadFile = File(...), 
+    img_url: str = Form(...), 
     db=Depends(get_db)
 ):
     cursor, conn = db
-    register_product(cursor, sku, name, description, price, stock, file)
+    register_product(cursor, sku, name, description, price, stock, img_url)
     return ProductOut(
         sku=sku, 
         name=name, 
         description=description, 
         price=price, 
         stock=stock, 
-        img=f"/images/{sku}.png", 
+        img=img_url, 
         categories=[]
     )
 

@@ -38,7 +38,7 @@ return (
     {productsRef.current.length === 0 && !hasFetched && <p>Loading products...</p>}
     {productsRef.current.map((product) => (
       <div key={product.sku} className="product-card">
-        <img src={product.image} alt={product.name} className="product-image" />
+        <img src={product.img} alt={product.name} className="product-image" />
         <div className="product-info">
           <h4>{product.name}</h4>
           <p>${parseFloat(product.price).toFixed(2)}</p>

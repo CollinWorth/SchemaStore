@@ -114,7 +114,7 @@ const ProductPage = () => {
                 className={`product-card ${expandedCard === product.sku ? "expanded" : ""}`}
                 onClick={() => toggleExpand(product.sku)}
                 >
-                <img src={product.img || "/placeholder.png"} alt={product.name} />
+                <img src={product.img} alt={product.name} />
                 <h3>{product.name}</h3>
 
                 <div className="product-price">${product.price.toFixed(2)}</div>
