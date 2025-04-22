@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, Depends, File, HTTPException
+from fastapi import APIRouter, UploadFile, Depends, File, HTTPException, status
 
 from ..database import get_db
 from ..crud import register_product, search_products_by_query
@@ -103,3 +103,12 @@ def create_product(
         sku=sku, name=name, description=description, price=price, stock=stock, img=f"/images/{sku}.png", categories=[]
     )
 
+@router.delete("/{sku}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_product(sku: str, db=Depends(get_db)):
+    cursor, conn = db
+    query = f"""DELETE FROM products_categories WHERE product_sku = '{sku}';
+                DELETE FROM reserved_items WHERE product_sku = '{sku}';
+                DELETE FROM products WHERE sku = '{sku}';"""
+    cursor.execute(query)
+    conn.commit()
+    return {"message": "Product deleted successfully"}
