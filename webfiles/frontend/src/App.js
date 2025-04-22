@@ -26,17 +26,20 @@ function App() {
           <Link to="/" className="logo">
             <img src={logo} alt="Schema Store Logo" className="logo-image" />
           </Link>
+
+          {/* About Us Link */}
           <ul className="nav-links">
-            <Link to="/about">About Us</Link>
+            <li><Link to="/about">About Us</Link></li>
           </ul>
+
           {/* Search Bar */}
           {/*<div className="search-container">
             <Search className="search-icon" size={20} />
             <input type="text" placeholder="Search..." className="search-input" />
           </div>
-          <Link to ="/products"><span>Search</span></Link>
-          {/* Navigation Links */}
+          <Link to="/products"><span>Search</span></Link>
 
+          {/* Navigation Links */}
           </div>
           <ul className="nav-links">
             {!username && (
