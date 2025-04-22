@@ -25,12 +25,9 @@ function App() {
           <div className="navbar-left">
           <Link to="/" className="logo">
             <img src={logo} alt="Schema Store Logo" className="logo-image" />
-          </Link>
-
-          {/* About Us Link */}
-          <ul className="nav-links">
-            <li><Link to="/about">About Us</Link></li>
-          </ul>
+          </Link> 
+            <Link className="nav-link" to="/about">About Us</Link>
+            <Link className="nav-link" to="/products">Search</Link>
           </div>
 
           {/* Search Bar */}

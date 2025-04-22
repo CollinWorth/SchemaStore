@@ -81,10 +81,7 @@
     gap: 15px;
     list-style: none;
   }
-  
-  .nav-links .left{
-    align-self: start;
-  }
+
   .nav-links li {
     display: inline;
   }

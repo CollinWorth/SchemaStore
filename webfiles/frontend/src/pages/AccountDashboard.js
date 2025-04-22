@@ -9,6 +9,7 @@ function AccountDashboard(){
     const handleLogout = () =>{
         sessionStorage.removeItem("username");
         navigate('/');
+        window.location.reload();
     }
 
     return(
@@ -17,8 +18,8 @@ function AccountDashboard(){
             <div className="sidebar">
                 <h2>Hello {username}</h2>
                 <ul>
-                    <li><a>View Orders</a></li>
-                    <li><a>Update Contact Information</a></li>
+                    <li><a href="/">View Orders</a></li>
+                    <li><a href="/">Update Contact Information</a></li>
                     <li><a onClick={handleLogout}>Logout</a></li>
                 </ul>
             </div>                                                
