@@ -10,12 +10,12 @@ export const loginUser = async (username, password) => {
     return response.data;
 };
 
-export const createUser = async (username, password, email) => {
+export const createUser = async (username, password, email, role_id) => {
     const response = await axios.post(`${API_URL}/register/`, {
         username,
         password,
         email,
-        role_id: 3, 
+        role_id, 
     });
     return response.data;
 };
