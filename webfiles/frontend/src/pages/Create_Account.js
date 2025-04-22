@@ -58,7 +58,7 @@ function CreateUser() {
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <button type="submit">Login</button>
+      <button type="submit">Create Account</button>
     </form>
   );
 }
