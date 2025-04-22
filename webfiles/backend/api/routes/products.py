@@ -3,6 +3,7 @@ from fastapi import APIRouter, UploadFile, Depends, File, HTTPException, status
 from ..database import get_db
 from ..crud import register_product, search_products_by_query
 from ..schemas import ProductOut, ProductCreate
+from fastapi import Form 
 
 router = APIRouter(
     prefix="/products",
@@ -89,18 +90,24 @@ def get_product(sku: str, db=Depends(get_db)):
 
 @router.post("/", response_model=ProductOut)
 def create_product(
-    sku: str, 
-    name: str, 
-    description: str, 
-    price: float, 
-    stock: int, 
+    sku: str = Form(...), 
+    name: str = Form(...), 
+    description: str = Form(...), 
+    price: float = Form(...), 
+    stock: int = Form(...), 
     file: UploadFile = File(...), 
     db=Depends(get_db)
 ):
     cursor, conn = db
     register_product(cursor, sku, name, description, price, stock, file)
     return ProductOut(
-        sku=sku, name=name, description=description, price=price, stock=stock, img=f"/images/{sku}.png", categories=[]
+        sku=sku, 
+        name=name, 
+        description=description, 
+        price=price, 
+        stock=stock, 
+        img=f"/images/{sku}.png", 
+        categories=[]
     )
 
 @router.delete("/{sku}", status_code=status.HTTP_204_NO_CONTENT)

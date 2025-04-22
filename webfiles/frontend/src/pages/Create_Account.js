@@ -20,7 +20,8 @@ function CreateUser() {
       localStorage.setItem("username", response.username);
       // This is where you would navigate to a different page because successful
       console.log("Creation successful from front end");
-      navigate('/Home.js'); // route to Home.js
+      navigate('/login'); // route to Home.js
+      window.location.reload();
     } catch (err) {
       console.log("Error from creation");
     }

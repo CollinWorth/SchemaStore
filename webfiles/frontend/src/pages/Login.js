@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import "./styles/login.css";
 import { loginUser } from "../api";
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 
 function Login() {
@@ -18,10 +19,26 @@ function Login() {
     try {
       const response = await loginUser(username, password);
       console.log("Login response: ", response);
+  
       sessionStorage.setItem("username", response.username);
-      // This is where you would navigate to a different page because successful
+  
+      // 🔥 NEW: Fetch user info to get the role
+      const userInfo = await axios.get(`http://127.0.0.1:8000/user/${response.username}`);
+      console.log("User Info:", userInfo.data);
+  
+      // Map role string to role_id
+      const roleMap = {
+        "admin": 1,
+        "buyer": 2,
+        "seller": 3
+      };
+      const role_id = roleMap[userInfo.data.role];
+  
+      sessionStorage.setItem("role_id", role_id);
+  
       console.log("login successful from front end");
-      navigate('/'); // route to Home.js
+      navigate('/');
+      window.location.reload();
       
     } catch (err) {
       console.log("Invalid credentials");

@@ -1,7 +1,7 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor 
 
-DATABASE_URL = "postgresql://postgres:postgres@localhost/schemastoredb"
+DATABASE_URL = "postgresql://schemastore:password@localhost/schemastoredb"
 
 def get_db():
     try:

@@ -2,6 +2,7 @@ import psycopg2
 
 DATABASE_URL = "postgresql://schemastore:password@localhost/schemastoredb"
 
+
 def get_db():
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()  # Use the default cursor (not RealDictCursor)
