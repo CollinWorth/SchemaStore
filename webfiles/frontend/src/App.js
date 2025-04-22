@@ -11,6 +11,7 @@ import Products from "./pages/Products";
 import { Car, Search } from "lucide-react";
 import logo from "./images/logo.png";
 import Admin from "./pages/Admin";
+import Payment from "./pages/Payment";
 
 function App() {
   const username = sessionStorage.getItem("username");
@@ -18,6 +19,7 @@ function App() {
 
   return (
     <Router>
+     
       <div className="app">
         {/* Top Navbar */}
         <nav className="navbar">
@@ -76,6 +78,7 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/about" element={<About />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/payment" element={<Payment />} />
           </Routes>
         </div>
       </div>

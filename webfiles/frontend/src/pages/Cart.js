@@ -2,17 +2,24 @@ import axios from 'axios';
 import './styles/cart.css'
 import { useCallback, useEffect, useState } from "react"
 import { useCart } from './components/Cartcomp';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
 
   const { cart, addToCart, removeFromCart, fetchCart } = useCart();
-
+  const navigate = useNavigate();
   const [product_list, setList] = useState(new Map());
   const [total, setTotal] = useState(0);
+
+  
 
   useEffect(() => {
     fetchCart();
   },[]);
+
+  const handleCheckout = () => {
+    navigate('/payment');
+  };
 
   const newMap = new Map();
 
@@ -68,7 +75,13 @@ const Cart = () => {
       })}
 
       <h3>Total: ${total.toFixed(2)}</h3>
-      <button className='checkout' disabled={Object.keys(cart).length === 0}>Checkout</button>
+      <button 
+        className='checkout' 
+        disabled={Object.keys(cart).length === 0}
+        onClick={handleCheckout}
+      >
+        Checkout
+      </button>
     </div>
   );
 };
