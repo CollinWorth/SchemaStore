@@ -29,10 +29,12 @@ function Login() {
   };
   
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
       <div className="banner">
         <h1>Welcome Back! Please Log-In Below:</h1>
       </div>
+    <div className='login-container'>
+    <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="username">Username:</label>
         <input
@@ -53,6 +55,8 @@ function Login() {
       </div>
       <button type="submit">Login</button>
     </form>
+    </div>
+    </div>
   );
 }
 

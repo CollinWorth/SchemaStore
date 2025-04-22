@@ -1,4 +1,5 @@
 import axios from 'axios';
+import './styles/cart.css'
 import { useCallback, useEffect, useState } from "react"
 import { useCart } from './components/Cartcomp';
 
@@ -39,7 +40,7 @@ const Cart = () => {
 
 
   return (
-    <div>
+    <div className='cart-page'>
       <h2>Your Cart</h2>
       {Object.keys(cart).length === 0 && <p>Cart is empty</p>}
 
@@ -48,19 +49,26 @@ const Cart = () => {
         if (!product) return null;
 
         return (
-          <div key={sku}>
+          <div key={sku} className='cart-item'>
+          <div className='item-details'>
             <h4>{product.name}</h4>
             <p>Price: ${product.price}</p>
-            <p>Qty: {quantity}</p>
-            <button onClick={() => removeFromCart(sku)}>-</button>
-            <button onClick={() => addToCart(sku)}>+</button>
-            <button onClick={() => removeFromCart(sku, cart[sku])}>Remove</button>
+        
+            <div className="qty-row">
+              <p>Qty: {quantity}</p>
+              <div className="item-controls">
+                <button onClick={() => removeFromCart(sku)}>-</button>
+                <button onClick={() => addToCart(sku)}>+</button>
+                <button onClick={() => removeFromCart(sku, cart[sku])}>Remove</button>
+              </div>
+            </div>
           </div>
+        </div>
         );
       })}
 
       <h3>Total: ${total.toFixed(2)}</h3>
-      <button disabled={Object.keys(cart).length === 0}>Checkout</button>
+      <button className='checkout' disabled={Object.keys(cart).length === 0}>Checkout</button>
     </div>
   );
 };

@@ -17,8 +17,8 @@ function AccountDashboard(){
             <div className="sidebar">
                 <h2>Hello {username}</h2>
                 <ul>
-                    <li><a>Section 1</a></li>
-                    <li><a>Section 2</a></li>
+                    <li><a>View Orders</a></li>
+                    <li><a>Update Contact Information</a></li>
                     <li><a onClick={handleLogout}>Logout</a></li>
                 </ul>
             </div>                                                

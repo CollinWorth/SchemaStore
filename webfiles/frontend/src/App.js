@@ -18,18 +18,19 @@ function App() {
         {/* Top Navbar */}
         <nav className="navbar">
           {/* Clickable Logo (Redirects to Home) */}
+          <div className="navbar-left">
           <Link to="/" className="logo">
             <img src={logo} alt="Schema Store Logo" className="logo-image" />
           </Link>
-          <ul className="nav-links">
-            <Link to="/about">About Us</Link>
-          </ul>
+          <Link className="nav-link" to="/about">About Us</Link>
+          <Link className="nav-link" to ="/products"><span>Search</span></Link>
+          </div>
           {/* Search Bar */}
-          <div className="search-container">
+          {/*<div className="search-container">
             <Search className="search-icon" size={20} />
             <input type="text" placeholder="Search..." className="search-input" />
-          </div>
-          <Link to ="/products"><span>Search</span></Link>
+          </div>*/}
+          <h2>Schema Store</h2>
 
           {/* Navigation Links */}
           {sessionStorage.getItem("username") ? (

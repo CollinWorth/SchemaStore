@@ -1,0 +1,43 @@
+.cart-page{
+    padding-left: 33%;
+    padding-right: 5rem;
+    padding-top: 1rem;
+}
+
+.cart-item {
+    margin-bottom: 1rem;
+  }
+  
+  .item-details {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+
+  .qty-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .item-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 0.3rem;
+  }
+  
+  .item-controls button {
+    padding: 6px 10px;
+    background-color: #555;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .checkout{
+    width: 50%;
+    
+
+  }
+  

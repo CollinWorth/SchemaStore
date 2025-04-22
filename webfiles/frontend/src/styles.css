@@ -9,6 +9,12 @@
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
   }
   
+  .navbar .link{
+    left: 0;
+    color: red;
+    width: fit-content;
+  }
+
   /* Logo (Click to go Home) */
   .logo {
     display: flex;
@@ -51,7 +57,24 @@
     border-radius: 4px;
   }
   
-  
+  .navbar-left{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .navbar-left .nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: 0.3s;
+  }
+
+  .navbar-left .nav-link:hover {
+    background: white;
+    color: #1a1a1a;
+  }
   /* Navigation Links */
   .nav-links {
     display: flex;
@@ -59,6 +82,9 @@
     list-style: none;
   }
   
+  .nav-links .left{
+    align-self: start;
+  }
   .nav-links li {
     display: inline;
   }
