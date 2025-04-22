@@ -18,6 +18,7 @@ function Admin() {
     img: null // <- always null for now
   });
 
+
   useEffect(() => {
     fetchProducts();
     fetchUsers();
@@ -78,6 +79,19 @@ function Admin() {
     }
   };
 
+  const handleDeleteProduct = async (sku) => {
+    if (!window.confirm(`Are you sure you want to delete product with SKU "${sku}"?`)) {
+      return;
+    }
+  
+    try {
+      await axios.delete(`http://127.0.0.1:8000/products/${sku}`);
+      fetchProducts(); // Refresh product list
+    } catch (err) {
+      console.error("Failed to delete product", err);
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewProduct((prev) => ({
@@ -132,18 +146,24 @@ function Admin() {
               <th>Price</th>
               <th>Stock</th>
               <th>Image URL</th>
+              <th>Delete</th> 
             </tr>
           </thead>
           <tbody>
-            {products.map((prod, index) => (
-              <tr key={index}>
+          {products.map((prod, index) => (
+            <tr key={index}>
                 <td>{prod.sku}</td>
                 <td>{prod.name}</td>
                 <td>{prod.description}</td>
                 <td>${prod.price}</td>
                 <td>{prod.stock}</td>
                 <td>{prod.img ? "Image exists" : "No image"}</td>
-              </tr>
+                <td>
+                <button onClick={() => handleDeleteProduct(prod.sku)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                    🗑️
+                </button>
+                </td>
+            </tr>
             ))}
           </tbody>
         </table>

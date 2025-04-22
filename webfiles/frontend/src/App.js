@@ -31,6 +31,7 @@ function App() {
           <ul className="nav-links">
             <li><Link to="/about">About Us</Link></li>
           </ul>
+          </div>
 
           {/* Search Bar */}
           {/*<div className="search-container">
@@ -40,7 +41,6 @@ function App() {
           <Link to="/products"><span>Search</span></Link>
 
           {/* Navigation Links */}
-          </div>
           <ul className="nav-links">
             {!username && (
               <>
