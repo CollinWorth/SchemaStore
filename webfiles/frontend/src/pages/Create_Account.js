@@ -3,27 +3,26 @@ import "./styles/login.css";
 import { createUser } from "../api";
 import { useNavigate } from 'react-router-dom';
 
-
 function CreateUser() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [role, setRole] = useState(null); // null = not selected
   const navigate = useNavigate();
   
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Form submitted');
-    // Handle login logic here (e.g., API call)
-    console.log('Creating account with:', username, password, email);
+    const role_id = role === 3 ? 3 : 2; // Vendor is 3, Customer is 2, default to 2
+    console.log('Creating account with:', username, password, email, role_id);
+
     try {
-      const response = await createUser(username, password, email);
+      const response = await createUser(username, password, email, role_id);
       localStorage.setItem("username", response.username);
-      // This is where you would navigate to a different page because successful
       console.log("Creation successful from front end");
-      navigate('/login'); // route to Home.js
+      navigate('/login');
       window.location.reload();
     } catch (err) {
-      console.log("Error from creation");
+      console.log("Error from creation", err);
     }
   };
   
@@ -58,6 +57,23 @@ function CreateUser() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+      </div>
+      <div>
+      <button
+          type="button"
+          onClick={() => setRole(2)}
+          className={role === 2 ? 'selected' : ''}
+        >
+          Customer
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setRole(3)}
+          className={role === 3 ? 'selected' : ''}
+        >
+          Vendor
+        </button>
       </div>
       <button type="submit">Create Account</button>
     </form>

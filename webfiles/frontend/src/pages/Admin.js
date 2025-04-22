@@ -41,25 +41,12 @@ function Admin() {
       const response = await axios.get("http://127.0.0.1:8000/user/");
       const usersWithRoles = response.data.map(user => ({
         ...user,
-        role: mapRole(user.role)
+        
       }));
       setUsers(usersWithRoles);
     } catch (err) {
       console.error("Failed to fetch users", err);
       setUsers([]);
-    }
-  };
-
-  const mapRole = (roleId) => {
-    switch (roleId) {
-      case 1:
-        return "Admin";
-      case 2:
-        return "Buyer";
-      case 3:
-        return "Seller";
-      default:
-        return "Unknown";
     }
   };
 

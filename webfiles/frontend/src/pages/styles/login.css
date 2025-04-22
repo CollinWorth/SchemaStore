@@ -69,4 +69,23 @@
     background-color: #1f1f1f;
   }
 
+  .selected {
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: 2px solid #4CAF50;
+  }
+
+  button {
+    transition: 0.3s ease;
+  }
+  .role-btn {
+    padding: 10px 20px;
+    margin: 10px;
+    border: 2px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+  }
   
+  .role-btn:hover {
+    background-color: #f0f0f0;
+  }

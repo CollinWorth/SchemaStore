@@ -12,6 +12,7 @@ import { Car, Search } from "lucide-react";
 import logo from "./images/logo.png";
 import Admin from "./pages/Admin";
 import Payment from "./pages/Payment";
+import Seller from "./pages/Seller";
 
 function App() {
   const username = sessionStorage.getItem("username");
@@ -61,6 +62,10 @@ function App() {
             {username && role_id === "1" && (
               <li><Link to="/admin">Admin</Link></li>
             )}
+            {/* Seller link only if logged in and role_id == 3 */}
+            {username && role_id === "3" && (
+              <li><Link to="/seller">Seller</Link></li>
+            )}
           </ul>
         </nav>
 
@@ -76,6 +81,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/seller" element={<Seller />} />
           </Routes>
         </div>
       </div>
