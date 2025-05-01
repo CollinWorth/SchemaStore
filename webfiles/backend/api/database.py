@@ -1,6 +1,6 @@
 import psycopg2
 
-DATABASE_URL = "postgresql://schemastore:password@localhost/schemastoredb"
+DATABASE_URL = "postgresql://postgres:E};jF>5aetk5V@budgetbridge-db.c9e0iuy0kl1n.us-east-2.rds.amazonaws.com/budgetbridge"
 
 
 def get_db():
