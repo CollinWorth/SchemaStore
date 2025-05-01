@@ -18,6 +18,7 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",  # React dev server
     "http://127.0.0.1:3000",  # Also valid sometimes depending on browser
+    "http://schemastore-db.s3-website.us-east-2.amazonaws.com/", # Prodcution URL
 ]
 
 
