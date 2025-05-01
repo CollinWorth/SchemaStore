@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:8000"; // this is if fast api is running on local host
+const API_URL = "http://ec2-3-148-191-99.us-east-2.compute.amazonaws.com:8000"; // this is if fast api is running on local host
 
 export const loginUser = async (username, password) => {
     const response = await axios.post(`${API_URL}/login/`, {
